@@ -1,6 +1,4 @@
 
----
-
 #  High-Level Idea
 
 * It’s a **menu-driven console application**.
