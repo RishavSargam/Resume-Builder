@@ -1,0 +1,164 @@
+
+---
+
+#  High-Level Idea
+
+* It’s a **menu-driven console application**.
+* User enters resume details (name, email, phone, education, skills, projects, experience) using `getline`.
+* Resume can be **displayed** on screen, **saved** into a text file (`Name_resume.txt`), or **loaded** back from an existing file.
+
+---
+
+#  Code Structure (OOP)
+
+### 1) `class Resume`
+
+**Private fields:**
+
+* `name, email, phone, education, skills, projects, experience`
+
+**Public methods:**
+
+* `inputDetails()` → takes multi-line user input (with spaces)
+* `displayResume()` → prints resume details on screen
+* `saveToFile()` → creates a file with the name format `Name_resume.txt` and writes resume into it
+* `loadFromFile()` → loads a resume from a given filename and prints it
+
+### 2) `main()` (Menu loop)
+
+* Runs inside a `do { ... } while(choice != 0);` loop.
+* After every numeric input (`cin >> choice;`), we use `cin.ignore();` to avoid skipping `getline`.
+* Menu options:
+
+  1. Create Resume
+  2. Display Resume
+  3. Save Resume
+  4. Load Resume
+  5. Exit
+
+---
+
+#  Why `cin.ignore()` is Important
+
+* `cin >> choice;` only reads the number but leaves the newline `\n` in the input buffer.
+* If we immediately call `getline` after that, it will read an **empty line**.
+* Solution: always call `cin.ignore();` right after numeric input.
+* This fixed the issue you faced earlier (display was not working). 
+
+---
+
+#  File Saving Logic
+
+* File format: `<Name>_resume.txt`
+  Example: `"Rishav Raj"` → `"Rishav_Raj_resume.txt"`
+* Spaces in name are replaced with underscores (`_`).
+* Saved content looks like:
+
+  ```
+  ========== Resume ==========
+  Name       : Rishav Raj
+  Email      : rishav@example.com
+  Phone      : 9876543210
+  Education  : B.Tech CSE
+  Skills     : C++, DSA, Web Dev
+  Projects   : Calculator, Resume Builder
+  Experience : Internship at XYZ
+  ============================
+  ```
+* If name is empty → program shows a warning: `"Please create resume first before saving!"`
+
+---
+
+#  File Loading Logic
+
+* User enters filename (e.g., `Rishav_Raj_resume.txt`).
+* Program reads file line by line and prints the resume.
+* If file not found → `"File not found!"`
+
+---
+
+#  Example Usage
+
+```
+====== Resume Builder ======
+1. Create Resume
+2. Display Resume
+3. Save Resume to File
+4. Load Resume from File
+0. Exit
+Enter choice: 1
+
+Enter Full Name: Rishav Raj
+Enter Email: rishav@example.com
+Enter Phone: 9876543210
+Enter Education: B.Tech CSE
+Enter Skills: C++, DSA, Web Dev
+Enter Projects: Calculator, Resume Builder
+Enter Experience: Internship at XYZ
+
+(Press 2 → shows resume on terminal)
+(Press 3 → saves to "Rishav_Raj_resume.txt")
+(Press 4 → loads and displays from saved file)
+```
+
+---
+
+# ⏱ Complexity
+
+* **Input/Display:** O(1) (depends on entered characters only)
+* **Save to File:** O(L), where L = number of characters written
+* **Load from File:** O(L), where L = number of characters read
+* Memory: just strings → O(L)
+
+---
+
+#  Common Issues & Fixes
+
+1. **Resume not showing in Display?**
+
+   * Must create resume first (option 1).
+   * Ensure `cin.ignore();` is used after numeric inputs.
+2. **Invalid filenames on Windows?**
+
+   * Certain characters (`< > : " / \ | ? *`) are not allowed in filenames.
+   * We can add a small function to replace them with `_`.
+3. **Empty inputs?**
+
+   * Handled with `getline`.
+
+---
+
+#  Compile & Run
+
+```bash
+# Linux / Mac
+g++ -std=c++17 main.cpp -o resume
+./resume
+
+# Windows (MinGW)
+g++ -std=c++17 main.cpp -o resume.exe
+resume.exe
+```
+
+---
+
+#  Suggested Improvements
+
+* **Edit resume** (update only specific fields)
+* **Multiple resumes** (store multiple files and list them)
+* **Markdown export** (so GitHub renders it nicely)
+* **PDF export** (using external library later)
+* **Validation** (email format check, phone digits only)
+* **Templates** (compact vs detailed resume styles)
+
+---
+
+# Interview Pitch
+
+> I built a **Resume Builder project in C++** using **Object-Oriented Programming** and **file handling**.
+> It allows users to **create, display, save, and load resumes**.
+> I handled tricky parts like **input buffering with `cin.ignore()`** and **filename sanitization**.
+> The project is modular and extensible (edit mode, multi-profile, markdown/PDF export).
+
+---
+
